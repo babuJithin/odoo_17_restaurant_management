@@ -53,9 +53,11 @@ class Ecommerce_Api_V1(http.Controller):
                  ('res_model', '=', 'app.image.attachments'),
                  ('res_field', '=', 'image_data')], limit=1)
             if attachment:
-                attachment.access_token = attachment._generate_access_token()
+                # Stable public URL (no rotating access token)
                 images[key] = url_join(
-                    base_url, 'web/content/%s?access_token=%s' % (attachment.id, attachment.access_token))
+                    base_url,
+                    'web/image/app.image.attachments/%s/image_data?unique=%s' % (
+                        image_configuration['id'], attachment.checksum or attachment.id))
 
         return {
             "status": True,
