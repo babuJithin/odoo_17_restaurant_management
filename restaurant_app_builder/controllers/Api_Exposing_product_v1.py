@@ -20,6 +20,17 @@ _logger = logging.getLogger(__name__)
 base_url = "https://babujithin-odoo-17-restaurant-management.odoo.com"
 
 
+def get_product_type_prices(product):
+    """Extra price of each attribute value, grouped by attribute line; [] when there are none."""
+    type_prices = {}
+    for line in product.attribute_line_ids:
+        values = [{'variantName': ptav.name, 'price': ptav.price_extra}
+                  for ptav in line.product_template_value_ids if ptav.ptav_active]
+        if values:
+            type_prices[line.display_name] = values
+    return type_prices or []
+
+
 class log_in_credentials_v1(http.Controller):
 
 
@@ -317,6 +328,7 @@ class log_in_credentials_v1(http.Controller):
                         "qes_product_image": "http://" + str(
                             http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
                             product.id) if product.image_1920 else "False",
+                        "product_type_prices": get_product_type_prices(product),
                         "product_type": []}
 
                     for variant in request.env['product.product'].sudo().search(
@@ -448,6 +460,7 @@ class log_in_credentials_v1(http.Controller):
                         "product_image": "http://" + str(
                             http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
                             product.id) if product.image_1920 else "False",
+                        "product_type_prices": get_product_type_prices(product),
                         "product_type": []}
                     print(vals)
                     print(vals['price'])
@@ -570,10 +583,7 @@ class log_in_credentials_v1(http.Controller):
                     "is_wishlist": False,
                     "images": [],
                     "product_type": [],
-                    "product_type_prices": {item.display_name: [{'variantName': x.name, 'price': x.price_extra}
-                                                                for x in item.product_template_value_ids if
-                                                                x.product_attribute_value_id.id in product.attribute_line_ids.value_ids.ids]
-                                            for item in product.attribute_line_ids},
+                    "product_type_prices": get_product_type_prices(product),
                     "similar_products":[]
                 }
 
@@ -747,6 +757,7 @@ class log_in_credentials_v1(http.Controller):
                     http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
                     product.id) if product.image_1920 else product.image_1920,
                 "is_wishlist": False,
+                "product_type_prices": get_product_type_prices(product),
                 "product_type": []}
             for variant in request.env['product.product'].sudo().search([('product_tmpl_id', '=', product.id)]):
                 vals1 = {

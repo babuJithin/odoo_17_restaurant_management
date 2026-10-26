@@ -11,6 +11,7 @@ import random
 import os
 _logger = logging.getLogger(__name__)
 from werkzeug.urls import url_join
+from .Api_Exposing_product_v1 import get_product_type_prices
 
 
 class Ecommerce_Api_Wishlist_V1(http.Controller):
@@ -90,11 +91,7 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
                             http.request.httprequest.host) + "/website/image/product.template/{}/image_512".format(
                             i.product_id.product_tmpl_id.id) if i.product_id.product_tmpl_id.image_512 else "False",
 
-                        "product_type_prices": {
-                            item.display_name: [{'variantName': x.name, 'price': x.price_extra} for x in
-                                                item.product_template_value_ids if
-                                                x.product_attribute_value_id.id in i.product_id.product_tmpl_id.attribute_line_ids.value_ids.ids]
-                            for item in i.product_id.product_tmpl_id.attribute_line_ids},
+                        "product_type_prices": get_product_type_prices(i.product_id.product_tmpl_id),
 
                         "product_type": []}
 
