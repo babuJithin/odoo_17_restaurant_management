@@ -488,8 +488,7 @@ class Ecommerce_Api_V1(http.Controller):
                             'total': order.amount_total or 0, 'order_line': [],
                             'customer': order.partner_id.name or ""}
                     for i in order.order_line:
-                        val = {'productName': i.product_id.name or "", 'image': "http://" + str(
-                            http.request.httprequest.host) + "/website/image/product.product/{}/image_1920".format(
+                        val = {'productName': i.product_id.name or "", 'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
                             i.product_id.id) if i.product_id.image_1920 else "",
                                'status': status or "",
                                'quantity': i.product_uom_qty or 0, 'product_uom': i.product_uom.name or "",

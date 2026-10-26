@@ -80,8 +80,7 @@ class banner_credentials_v1(http.Controller):
                         "product_uom": product.uom_id.name if product.uom_id.name else "",
                         "product_uom_id": product.uom_id.id if product.uom_id.id else 0,
                         "status": "1",
-                        "product_image": "http://" + str(
-                            http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                        "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                             product.id) if product.image_1920 else "False",
                         "product_type": []}
 
@@ -119,8 +118,7 @@ class banner_credentials_v1(http.Controller):
                             "product_type_url": str(variant.website_url),
                             "product_type_code": variant.default_code if variant.default_code else "",
                             "product_type_description": variant.description_sale if variant.description_sale else "",
-                            "product_type_image": "http://" + str(
-                                http.request.httprequest.host) + "/website/image/product.product/{}/image_1920".format(
+                            "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
                                 variant.id) if variant.image_1920 else "False",
                         }
 

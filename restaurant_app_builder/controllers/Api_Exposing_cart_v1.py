@@ -67,8 +67,7 @@ class Api_Exposing_Cartv1(http.Controller):
                         'product_packaging': [],
                         'price': round(x.price_unit, 2) or 0,
                         'delivery_methods': [],
-                        "image": "http://" + str(
-                            http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                        "image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                             x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                         'sub_total': round(x.price_subtotal, 2) or 0,
                         "product_note": x.product_id.product_tmpl_id.product_note or "",
@@ -142,8 +141,7 @@ class Api_Exposing_Cartv1(http.Controller):
                             'inventory_availability': "always",
                             'price': x.product_id.list_price or 0,
                             'delivery_methods': [],
-                            "image": "http://" + str(
-                                http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                            "image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                 x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                             'sub_total': round(x.price_subtotal, 2),
                             "product_note": x.product_id.product_tmpl_id.product_note or "",
@@ -246,8 +244,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                 'inventory_availability':  "always",
                                 'price': x.product_id.list_price or 0,
                                 'delivery_methods': [],
-                                'image':  "http://" + str(
-                                    http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                                'image':  request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                     x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                                 'sub_total': round(x.price_subtotal, 2),
                                 "product_note":x.product_id.product_tmpl_id.product_note or "",
@@ -325,8 +322,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                     "product_uom_id": x.product_id.uom_id.id if x.product_id.uom_id else 0,
                                     'inventory_availability':  "always",
                                     'price': x.product_id.list_price or 0,
-                                    'image':  "http://" + str(
-                                            http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                                    'image':  request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                             x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                                     'sub_total': round(x.price_subtotal, 2),
                                     "product_note": x.product_id.product_tmpl_id.product_note or "",
@@ -375,8 +371,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                         "product_uom_id": x.product_id.uom_id.id if x.product_id.uom_id else 0,
                                         'inventory_availability': "always",
                                         'price': x.product_id.list_price or 0,
-                                        'image': "http://" + str(
-                                                http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                                        'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                                 x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                                         'sub_total': round(x.price_subtotal, 2),
                                         "product_note": x.product_id.product_tmpl_id.product_note or "",
@@ -407,8 +402,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                         "product_uom_id": x.product_id.uom_id.id if x.product_id.uom_id else 0,
                                         'inventory_availability': "always",
                                         'price': x.product_id.list_price or 0,
-                                        'image': "http://" + str(
-                                            http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                                        'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                             x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                                         'sub_total': round(x.price_subtotal, 2),
                                         "product_note": x.product_id.product_tmpl_id.product_note or "",
@@ -480,8 +474,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                     "product_uom_id": x.product_id.uom_id.id if x.product_id.uom_id else 0,
                                     'inventory_availability': "always",
                                     'price': x.product_id.list_price or 0,
-                                    'image': "http://" + str(
-                                                http.request.httprequest.host) + "/website/image/product.template/{}/image_1920".format(
+                                    'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
                                                 x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
                                     'sub_total': round(x.price_subtotal, 2),
                                     "product_note": x.product_id.product_tmpl_id.product_note or "",
