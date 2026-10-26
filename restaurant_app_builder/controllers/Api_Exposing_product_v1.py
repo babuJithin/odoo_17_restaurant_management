@@ -61,9 +61,9 @@ class log_in_credentials_v1(http.Controller):
                     "parent_category": cat.parent_id.id if cat.parent_id.id else 0,
                     "status": "1",
                     "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                        cat.id) if cat.banner else "False",
-                    "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                        cat.id) if cat.image_1920 else "False",
+                        cat.id) if cat.banner else "",
+                    "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                        cat.id) if cat.banner else "",
                     "created_at_date": cat.create_date.strftime('%Y-%m-%d'),
                     "created_at": cat.create_date.strftime('%Y-%m-%d'),
                     "child_cat": [],
@@ -78,9 +78,9 @@ class log_in_credentials_v1(http.Controller):
                          "parent_category": subcat.parent_id.id if subcat.parent_id.id else 0,
                          "status": "1",
                          "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                             subcat.id) if subcat.banner else "False",
-                         "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                             subcat.id) if subcat.image_1920 else "False",
+                             subcat.id) if subcat.banner else "",
+                         "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                             subcat.id) if subcat.banner else "",
                          "created_at_date": subcat.create_date.strftime('%Y-%m-%d'),
                          "created_at": subcat.create_date.strftime('%Y-%m-%d'),
                          "child_cat": [],
@@ -100,9 +100,9 @@ class log_in_credentials_v1(http.Controller):
                              "parent_category": child.parent_id.id if child.parent_id.id else 0,
                              "status": "1",
                              "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                                 child.id) if child.banner else "False",
-                             "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                                 child.id) if child.image_1920 else "False",
+                                 child.id) if child.banner else "",
+                             "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                                 child.id) if child.banner else "",
                              "created_at_date": child.create_date.strftime('%Y-%m-%d'),
                              "created_at": child.create_date.strftime('%Y-%m-%d'),
                              "child_cat": [],
@@ -118,8 +118,8 @@ class log_in_credentials_v1(http.Controller):
                                  "category": child1.name if child1.name else "",
                                  "parent_category": child1.parent_id.id if child1.parent_id.id else 0,
                                  "status": "1",
-                                 "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                                     child1.id) if child1.image_1920 else "False",
+                                 "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                                     child1.id) if child1.banner else "",
                                  "created_at_date": child1.create_date.strftime('%Y-%m-%d'),
                                  "created_at": child1.create_date.strftime('%Y-%m-%d'),
                                  "child_cat": [],
@@ -154,10 +154,10 @@ class log_in_credentials_v1(http.Controller):
                     "category_type": cat.category_type if cat.category_type else "",
                     "parent_category": cat.parent_id.id if cat.parent_id.id else 0,
                     "status": "1",
-                    "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                        cat.id) if cat.image_1920 else "False",
+                    "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                        cat.id) if cat.banner else "",
                     "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                        cat.id) if cat.banner else "False",
+                        cat.id) if cat.banner else "",
 
                     "created_at_date": cat.create_date.strftime('%Y-%m-%d'),
                     "created_at": cat.create_date.strftime('%Y-%m-%d'),
@@ -172,9 +172,9 @@ class log_in_credentials_v1(http.Controller):
                          "parent_category": subcat.parent_id.id if subcat.parent_id.id else 0,
                          "status": "1",
                          "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                             cat.id) if cat.banner else "False",
-                         "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                             subcat.id) if subcat.image_1920 else "False",
+                             subcat.id) if subcat.banner else "",
+                         "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                             subcat.id) if subcat.banner else "",
                          "created_at_date": subcat.create_date.strftime('%Y-%m-%d'),
                          "created_at": subcat.create_date.strftime('%Y-%m-%d'),
                          "child_cat": [],
@@ -193,9 +193,9 @@ class log_in_credentials_v1(http.Controller):
                              "parent_category": child.parent_id.id if child.parent_id.id else 0,
                              "status": "1",
                              "banner_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
-                                 cat.id) if cat.banner else "False",
-                             "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                                 child.id) if child.image_1920 else "False",
+                                 child.id) if child.banner else "",
+                             "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                                 child.id) if child.banner else "",
                              "created_at_date": child.create_date.strftime('%Y-%m-%d'),
                              "created_at": child.create_date.strftime('%Y-%m-%d'),
                              "child_cat": [],
@@ -210,8 +210,8 @@ class log_in_credentials_v1(http.Controller):
                                  "category": child1.name if child1.name else "",
                                  "parent_category": child1.parent_id.id if child1.parent_id.id else 0,
                                  "status": "1",
-                                 "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/image_1920".format(
-                                     child1.id) if child1.image_1920 else "False",
+                                 "category_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.public.category/{}/banner".format(
+                                     child1.id) if child1.banner else "",
                                  "created_at_date": child1.create_date.strftime('%Y-%m-%d'),
                                  "created_at": child1.create_date.strftime('%Y-%m-%d'),
                                  "child_cat": [],
@@ -312,7 +312,7 @@ class log_in_credentials_v1(http.Controller):
                         "qes_updated_at": product.write_date.strftime('%Y-%m-%d'),
                         "created_at_date": product.create_date.strftime('%Y-%m-%d'),
                         "qes_product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                            product.id) if product.image_1920 else "False",
+                            product.id) if product.image_1920 else "",
                         "product_type_prices": get_product_type_prices(product),
                         "product_type": []}
 
@@ -336,7 +336,7 @@ class log_in_credentials_v1(http.Controller):
                             "product_type_code": variant.default_code if variant.default_code else "",
                             "product_type_det": variant.description_sale if variant.description_sale else "",
                             "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
-                                variant.id) if variant.image_1920 else "False",
+                                variant.id) if variant.image_1920 else "",
                         }
 
                         vals['product_type'].append(vals1)
@@ -442,7 +442,7 @@ class log_in_credentials_v1(http.Controller):
                                 0].id if [categ_id for categ_id in product.public_categ_ids if
                                           categ_id.parent_id.id == False] else "",
                         "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                            product.id) if product.image_1920 else "False",
+                            product.id) if product.image_1920 else "",
                         "product_type_prices": get_product_type_prices(product),
                         "product_type": []}
                     print(vals)
@@ -486,7 +486,7 @@ class log_in_credentials_v1(http.Controller):
                             "product_type_code": variant.default_code if variant.default_code else "",
                             "product_type_description": variant.description_sale if variant.description_sale else "",
                             "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
-                                variant.id) if variant.image_1920 else "False",
+                                variant.id) if variant.image_1920 else "",
                         }
 
                         vals['product_type'].append(vals1)
@@ -559,7 +559,7 @@ class log_in_credentials_v1(http.Controller):
                                       categ_id.parent_id.id == False] else "",
                     "status": "1",
                     "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                        product.id) if product.image_1920 else "False",
+                        product.id) if product.image_1920 else "",
                     "is_wishlist": False,
                     "images": [],
                     "product_type": [],
@@ -607,7 +607,7 @@ class log_in_credentials_v1(http.Controller):
                         "product_type_code": variant.default_code if variant.default_code else "",
                         "product_type_description": variant.description_sale if variant.description_sale else "",
                         "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
-                            variant.id) if variant.image_1920 else "False",
+                            variant.id) if variant.image_1920 else "",
                     }
 
                     vals['product_type'].append(vals1)
@@ -617,7 +617,7 @@ class log_in_credentials_v1(http.Controller):
                         "product_flag": i.display_name or "",
                         "product_id": product.id or 0,
                         "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.image/{}/image_1920".format(
-                            i.id) if i.image_1920 else "False",
+                            i.id) if i.image_1920 else "",
                     }
                     vals['images'].append(vals2)
 
@@ -653,7 +653,7 @@ class log_in_credentials_v1(http.Controller):
                             "product_description": main_category_template.description_sale if main_category_template.description_sale else "",
                             "price": round(offer_price, 2) if offer_price else round(main_category_template.list_price, 2) or 0,
                             "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                main_category_template.id) if main_category_template.image_1920 else "False",
+                                main_category_template.id) if main_category_template.image_1920 else "",
 
                         }
 
@@ -756,7 +756,7 @@ class log_in_credentials_v1(http.Controller):
                     "product_type_code": variant.default_code if variant.default_code else "",
                     "product_type_det": variant.description_sale if variant.description_sale else "",
                     "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
-                        variant.id) if variant.image_1920 else "False",
+                        variant.id) if variant.image_1920 else "",
                 }
 
                 vals['product_type'].append(vals1)

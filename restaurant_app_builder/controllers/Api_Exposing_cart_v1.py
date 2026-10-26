@@ -68,7 +68,7 @@ class Api_Exposing_Cartv1(http.Controller):
                         'price': round(x.price_unit, 2) or 0,
                         'delivery_methods': [],
                         "image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                         'sub_total': round(x.price_subtotal, 2) or 0,
                         "product_note": x.product_id.product_tmpl_id.product_note or "",
                     }
@@ -142,7 +142,7 @@ class Api_Exposing_Cartv1(http.Controller):
                             'price': x.product_id.list_price or 0,
                             'delivery_methods': [],
                             "image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                             'sub_total': round(x.price_subtotal, 2),
                             "product_note": x.product_id.product_tmpl_id.product_note or "",
                         }
@@ -245,7 +245,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                 'price': x.product_id.list_price or 0,
                                 'delivery_methods': [],
                                 'image':  request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                    x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                    x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                                 'sub_total': round(x.price_subtotal, 2),
                                 "product_note":x.product_id.product_tmpl_id.product_note or "",
 
@@ -323,7 +323,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                     'inventory_availability':  "always",
                                     'price': x.product_id.list_price or 0,
                                     'image':  request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                                     'sub_total': round(x.price_subtotal, 2),
                                     "product_note": x.product_id.product_tmpl_id.product_note or "",
 
@@ -372,7 +372,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                         'inventory_availability': "always",
                                         'price': x.product_id.list_price or 0,
                                         'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                                         'sub_total': round(x.price_subtotal, 2),
                                         "product_note": x.product_id.product_tmpl_id.product_note or "",
                                     }
@@ -403,7 +403,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                         'inventory_availability': "always",
                                         'price': x.product_id.list_price or 0,
                                         'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                            x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                                         'sub_total': round(x.price_subtotal, 2),
                                         "product_note": x.product_id.product_tmpl_id.product_note or "",
                                     }
@@ -475,7 +475,7 @@ class Api_Exposing_Cartv1(http.Controller):
                                     'inventory_availability': "always",
                                     'price': x.product_id.list_price or 0,
                                     'image': request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "False",
+                                                x.product_id.product_tmpl_id.id) if x.product_id.product_tmpl_id.image_1920 else "",
                                     'sub_total': round(x.price_subtotal, 2),
                                     "product_note": x.product_id.product_tmpl_id.product_note or "",
                                 }

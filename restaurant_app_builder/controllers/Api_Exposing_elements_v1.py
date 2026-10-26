@@ -81,7 +81,7 @@ class banner_credentials_v1(http.Controller):
                         "product_uom_id": product.uom_id.id if product.uom_id.id else 0,
                         "status": "1",
                         "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                            product.id) if product.image_1920 else "False",
+                            product.id) if product.image_1920 else "",
                         "product_type": []}
 
 
@@ -119,7 +119,7 @@ class banner_credentials_v1(http.Controller):
                             "product_type_code": variant.default_code if variant.default_code else "",
                             "product_type_description": variant.description_sale if variant.description_sale else "",
                             "product_type_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.product/{}/image_1920".format(
-                                variant.id) if variant.image_1920 else "False",
+                                variant.id) if variant.image_1920 else "",
                         }
 
                         vals['product_type'].append(vals1)
@@ -153,7 +153,7 @@ class banner_credentials_v1(http.Controller):
                 "brandInfo": [{"brand_id": b.id,
                                "brand": b.name, "element_type": "brand",
                                "brand_image": base_url_local+"/website/image/product.brand/{}/brand_image".format(
-                                   b.id) if b.brand_image else "False",
+                                   b.id) if b.brand_image else "",
                                "products_count": b.product_count} for b in
                               request.env['product.brand'].sudo().search([('top_brand', '=', True)])]}
 

@@ -103,10 +103,10 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
                         "status": "1",
                         "available": False,
                         "product_image": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_1920".format(
-                            i.product_id.product_tmpl_id.id) if i.product_id.product_tmpl_id.image_1920 else "False",
+                            i.product_id.product_tmpl_id.id) if i.product_id.product_tmpl_id.image_1920 else "",
 
                         "product_image_512": request.httprequest.host_url.rstrip('/') + "/website/image/product.template/{}/image_512".format(
-                            i.product_id.product_tmpl_id.id) if i.product_id.product_tmpl_id.image_512 else "False",
+                            i.product_id.product_tmpl_id.id) if i.product_id.product_tmpl_id.image_512 else "",
 
                         "product_type_prices": get_product_type_prices(i.product_id.product_tmpl_id),
 
