@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_color_info_user,name_color_info_user,model_color_info,,1,1,1,1
+access_app_image_attachments_user,name_app_image_attachments_user,model_app_image_attachments,,1,1,1,1
+access_banner_element,view.banner.element,model_banner_element,,1,1,1,1
+access_deal_element,view.deal.element,model_deal_element,,1,1,1,1
+access_banner_element_item,view.banner.element.item,model_banner_element_item,,1,1,1,1
+access_res_partner_model,view.res.partner.model,base.model_res_partner,,1,1,1,1
+access_payment_type_model,view.payment.type.model,model_payment_type,,1,1,1,1
