@@ -26,7 +26,7 @@ class Ecommerce_Api_V1(http.Controller):
         color_configurations = request.env['color.info'].sudo().search_read([], ['id', 'name', 'code', 'backend_config'])
         image_configurations = request.env['app.image.attachments'].sudo().search_read([], ['id', 'name', 'image_type'])
 
-        # Defaults so the response never fails when a config record is missing
+        # Defaults: empty string when not configured
         colors = {
             'toolbar_color': '',
             'menu_color': '',
@@ -59,14 +59,16 @@ class Ecommerce_Api_V1(http.Controller):
                     'web/image/app.image.attachments/%s/image_data?unique=%s' % (
                         image_configuration['id'], attachment.checksum or attachment.id))
 
+        # Odoo returns False for empty fields, which would break Kotlin Int/String
+        # (Gson cannot parse false as Int/String), so numbers default to 0 and strings to "".
         return {
             "status": True,
             "message": "App Features",
-            "country_id": ENV.country_id.id,
-            "country_name": ENV.country_id.name,
-            "currecny_id": ENV.currency_id.id,
-            "currecny_name": ENV.currency_id.name,
             "language": "en",
+            "country_id": ENV.country_id.id or 0,
+            "country_name": ENV.country_id.name or "",
+            "currecny_id": ENV.currency_id.id or 0,
+            "currecny_name": ENV.currency_id.name or "",
             "toolbar_color": colors['toolbar_color'],
             "menu_color": colors['menu_color'],
             "button_color": colors['button_color'],
