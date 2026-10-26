@@ -17,7 +17,7 @@ import os
 
 _logger = logging.getLogger(__name__)
 
-base_url = "http://3.7.90.229:8019"
+base_url = "https://babujithin-odoo-17-restaurant-management.odoo.com"
 
 
 class log_in_credentials_v1(http.Controller):

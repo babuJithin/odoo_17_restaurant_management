@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 import logging
 import itertools
 
-base_url_local = "http://3.7.90.229:8019"
+base_url_local = "https://babujithin-odoo-17-restaurant-management.odoo.com"
 # base_url_local = "http://localhost:8035"
 
 _logger = logging.getLogger(__name__)
