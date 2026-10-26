@@ -2,6 +2,7 @@ from odoo.http import request
 import json
 from odoo import http
 from odoo import models, fields, api, _
+from odoo.exceptions import AccessDenied
 from datetime import datetime, date, timedelta
 import itertools
 import logging
@@ -169,9 +170,11 @@ class Ecommerce_Api_V1(http.Controller):
         kwargs = http.request.get_json_data() or kwargs
         _logger.info("parameters %s",kwargs)
 
-        db = kwargs.get('db') or request.db
-        domain = []
-        _logger.info("prameters <%s> , <%s>", kwargs.get('login'), kwargs.get('db'))
+        # Always authenticate against the database serving this request: the user lookup
+        # below runs on request.db, and a stale 'db' sent by the app (e.g. from an older
+        # server) makes authenticate() fail and look like a wrong password.
+        db = request.db
+        _logger.info("customer_login <%s> on db <%s> (client db <%s>)", kwargs.get('login'), db, kwargs.get('db'))
         if not kwargs.get('login'):
             return {'status': False,
                                'message': 'Please enter email address',
@@ -186,17 +189,22 @@ class Ecommerce_Api_V1(http.Controller):
         if user_id:
             try:
                 uid = request.session.authenticate(db, user_id.login, kwargs.get('password'))
-                user = request.env['res.users'].sudo().search([('id', '=', int(uid))])
+            except AccessDenied:
+                return {'status': False, 'message': 'Wrong Credential'}
+            except Exception:
+                _logger.exception("customer_login failed for <%s>", kwargs.get('login'))
+                return {'status': False, 'message': 'Something Went Wrong Please Try Again'}
+            if not uid:
+                # Password was correct but the account has two-factor authentication enabled
+                return {'status': False, 'message': 'Two-factor authentication is enabled for this account'}
 
-                return {'status': True,
-                     'message': 'Logged in successfully',
-                     "data": {'uid': user.id, 'phone': user.phone_number or '',
-                              'name': user.name,
-                              'email': user.partner_id.email or '',
-                              }}
-            except:
-                return {'status': False, 'message': 'Wrong Credential',
-                     }
+            user = request.env['res.users'].sudo().browse(uid)
+            return {'status': True,
+                 'message': 'Logged in successfully',
+                 "data": {'uid': user.id, 'phone': user.phone_number or '',
+                          'name': user.name,
+                          'email': user.partner_id.email or '',
+                          }}
         else:
             return {'status': False, 'message': 'Invalid Email Address',
                  }

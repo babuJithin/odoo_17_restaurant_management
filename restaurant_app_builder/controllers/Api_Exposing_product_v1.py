@@ -457,21 +457,21 @@ class log_in_credentials_v1(http.Controller):
                         try:
                             pricelist = request.env['product.pricelist.item'].sudo().search(
                                 [('product_tmpl_id', '=', int(product.id))])
-                            offer_percentage = [variant.list_price - (
-                                    variant.list_price * item.percent_price / 100) if item.percent_price > 0 else (
-                                variant.list_price - item.discount_amount if item.discount_amount > 0 else item.fixed_price)
+                            offer_percentage = [variant.lst_price - (
+                                    variant.lst_price * item.percent_price / 100) if item.percent_price > 0 else (
+                                variant.lst_price - item.discount_amount if item.discount_amount > 0 else item.fixed_price)
                                                 for item in pricelist if
                                                 (not item.date_end and item.pricelist_id.selectable) or (
                                                         item.date_end and item.date_end >= datetime.now() and item.pricelist_id.selectable)]
                             offer_price = offer_percentage[0]
-                            discount_price = variant.list_price - offer_price
+                            discount_price = variant.lst_price - offer_price
                         except Exception as e:
                             offer_price = 0
                             discount_price = 0
                         vals1 = {
                             "product_type_id": variant.id if variant.id else 0,
-                            "price": round(offer_price, 2) if offer_price else round(product.list_price, 2) or 0,
-                            "org_price": round(product.list_price, 2),
+                            "price": round(offer_price, 2) if offer_price else round(variant.lst_price, 2) or 0,
+                            "org_price": round(variant.lst_price, 2),
                             "quantity": variant.virtual_available if variant.virtual_available > 0.0 else 0.0,
                             "product_uom": variant.uom_id.name if variant.uom_id.name else "",
                             "product_uom_id": variant.uom_id.id if variant.uom_id.id else 0,
@@ -582,22 +582,22 @@ class log_in_credentials_v1(http.Controller):
                         pricelist = request.env['product.pricelist.item'].sudo().search(
                             [('product_tmpl_id', '=', int(product.id))])
                         print("pricelist", pricelist)
-                        offer_percentage = [variant.list_price - (
-                                variant.list_price * item.percent_price / 100) if item.percent_price > 0 else (
-                            variant.list_price - item.discount_amount if item.discount_amount > 0 else item.fixed_price)
+                        offer_percentage = [variant.lst_price - (
+                                variant.lst_price * item.percent_price / 100) if item.percent_price > 0 else (
+                            variant.lst_price - item.discount_amount if item.discount_amount > 0 else item.fixed_price)
                                             for item in pricelist if
                                             (not item.date_end and item.pricelist_id.selectable) or (
                                                     item.date_end and item.date_end >= datetime.now() and item.pricelist_id.selectable)]
                         offer_price = offer_percentage[0]
-                        discount_price = variant.list_price - offer_price
+                        discount_price = variant.lst_price - offer_price
                     except Exception as e:
                         offer_price = 0
                         discount_price = 0
                     vals1 = {
                         "product_type": variant.id if variant.id else 0,
                         "product_type_id": variant.id if variant.id else 0,
-                        "price": round(offer_price, 2) if offer_price else round(product.list_price, 2) or 0,
-                        "org_price": round(product.list_price, 2),
+                        "price": round(offer_price, 2) if offer_price else round(variant.lst_price, 2) or 0,
+                        "org_price": round(variant.lst_price, 2),
                         "quantity": variant.virtual_available if variant.virtual_available > 0.0 else 0.0,
                         "product_uom": variant.uom_id.name or "",
                         "product_uom_id": variant.uom_id.id or 0,
