@@ -14,6 +14,22 @@ from werkzeug.urls import url_join
 from .Api_Exposing_product_v1 import get_product_type_prices
 
 
+def _get_offer_price(template, base_price):
+    # Same pricelist offer logic as the product listing API
+    try:
+        pricelist = request.env['product.pricelist.item'].sudo().search(
+            [('product_tmpl_id', '=', int(template.id))])
+        offer_percentage = [base_price - (
+                base_price * item.percent_price / 100) if item.percent_price > 0 else (
+            base_price - item.discount_amount if item.discount_amount > 0 else item.fixed_price)
+                            for item in pricelist if
+                            (not item.date_end and item.pricelist_id.selectable) or (
+                                    item.date_end and item.date_end >= datetime.now() and item.pricelist_id.selectable)]
+        return offer_percentage[0]
+    except Exception:
+        return 0
+
+
 class Ecommerce_Api_Wishlist_V1(http.Controller):
 
 
@@ -66,6 +82,8 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
             wishlist = request.env['product.wishlist'].sudo().search([('partner_id', '=', int(user.partner_id.id))])
             if wishlist:
                 for i in wishlist:
+                    template = i.product_id.product_tmpl_id
+                    offer_price = _get_offer_price(template, template.list_price)
                     vals = {
                         "product_id": i.product_id.product_tmpl_id.id,
                         "main_category_id":
@@ -80,7 +98,8 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
                         "quantity": i.product_id.product_tmpl_id.qty_available or 0,
                         "product_uom": i.product_id.product_tmpl_id.uom_id.name or "",
                         "product_uom_id": i.product_id.product_tmpl_id.uom_id.id or 0,
-                        "price": i.product_id.product_tmpl_id.list_price or 0,
+                        "price": round(offer_price, 2) if offer_price else round(template.list_price, 2) or 0,
+                        "org_price": round(template.list_price, 2),
                         "status": "1",
                         "available": False,
                         "product_image": "http://" + str(
@@ -97,9 +116,11 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
 
                     for variant in request.env['product.product'].sudo().search(
                             [('product_tmpl_id', '=', i.product_id.product_tmpl_id.id)]):
+                        variant_offer_price = _get_offer_price(template, variant.lst_price)
                         vals1 = {
                             "product_type_id": variant.id or 0,
-                            "price": variant.lst_price or 0,
+                            "price": round(variant_offer_price, 2) if variant_offer_price else round(variant.lst_price, 2) or 0,
+                            "org_price": round(variant.lst_price, 2),
                             "quantity": variant.qty_available or 0,
                             "product_uom": variant.uom_id.name or "",
                             "product_uom_id": variant.uom_id.id or 0,
