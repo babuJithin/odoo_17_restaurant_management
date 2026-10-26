@@ -284,7 +284,7 @@ class Ecommerce_Api_V1(http.Controller):
                     if kwargs.get('country_id') != None:
                         i.country_id = kwargs.get('country_id')
                     if kwargs.get('state_id') != None:
-                        i.country_id = kwargs.get('country_id')
+                        i.state_id = kwargs.get('state_id')
                     if kwargs.get('company_name') != None:
                         i.company_name_ecom = kwargs.get('company_name')
                     if kwargs.get('type') != None:
@@ -404,11 +404,12 @@ class Ecommerce_Api_V1(http.Controller):
             if not carts_list:
                 return {'status': False, 'message': 'No Cart Lines Found'}
             val = {'cart_chekouted': True,
-                   'date_order': kwargs.get('OrderDate'),
                    'partner_shipping_id': int(kwargs.get('address_id')) if kwargs.get(
                        'address_id') else cart_id.partner_id.id,
                    'state': 'sent'}
 
+            if kwargs.get('OrderDate'):
+                val['date_order'] = kwargs.get('OrderDate')
             if kwargs.get('date'):
                 val['delivery_date'] = kwargs.get('date')
             if kwargs.get('order_platform'):
@@ -447,7 +448,7 @@ class Ecommerce_Api_V1(http.Controller):
 
             amount_without_discount = 0
             try:
-                amount_without_discount = cart_id.amount_without_discount
+                amount_without_discount = cart_id.amount_undiscounted
                 cart_id.action_quotation_send()
             except Exception as e:
                 pass
@@ -475,6 +476,7 @@ class Ecommerce_Api_V1(http.Controller):
             if sale_oders:
                 order_details = []
                 for order in sale_oders:
+                    status = ""
                     if order.state == 'sent':
                         status = "Processing"
                     if order.state == 'sale':

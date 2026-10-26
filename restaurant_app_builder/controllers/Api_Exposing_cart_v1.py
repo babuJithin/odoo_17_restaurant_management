@@ -29,12 +29,6 @@ class Api_Exposing_Cartv1(http.Controller):
                 return ({'status': False, 'message': 'You are not a Valid user'})
         else:
             customer_id = request.env['res.users'].sudo().search([('id', '=', int(data.get('uid')))]).partner_id.id
-        if not customer_id:
-            guest_user = request.env['custom.guest.session'].sudo().search(
-                [('id_unique', '=', int(data.get('uid')))])
-            if guest_user:
-                public_user = request.env['res.users'].get_res_user_public()
-                customer_id = public_user.partner_id.id
         if customer_id:
             carts_info_check = request.env['sale.order'].sudo().search(
                 [('partner_id', '=', customer_id), ('cart_chekouted', '=', False),
@@ -106,12 +100,6 @@ class Api_Exposing_Cartv1(http.Controller):
                 return ({'status': False, 'message': 'You are not a Valid user'})
         else:
             customer_id = request.env['res.users'].sudo().search([('id', '=', int(data.get('uid')))]).partner_id.id
-        if not customer_id:
-            guest_user = request.env['custom.guest.session'].sudo().search(
-                [('id_unique', '=', int(data.get('uid')))])
-            if guest_user:
-                public_user = request.env['res.users'].get_res_user_public()
-                customer_id = public_user.partner_id.id
         if customer_id:
             try:
                 carts1 = request.env['sale.order'].sudo().search(
@@ -300,6 +288,7 @@ class Api_Exposing_Cartv1(http.Controller):
                 return ({'status': False, 'message': 'You are not a Valid user'})
         else:
             customer_id = request.env['res.users'].sudo().search([('id', '=', int(data.get('uid')))]).partner_id.id
+        carts_id = request.env['sale.order']
         if data.get('cart_id'):
             carts_id = request.env['sale.order'].sudo().search(
                 [('id', '=', int(data.get('cart_id'))), ('partner_id', '=', customer_id),('cart_chekouted', '=',False),
@@ -308,7 +297,9 @@ class Api_Exposing_Cartv1(http.Controller):
             try:
                 if data.get('line_id'):
                     if data.get('quantity') != 0:
-                        rec = request.env['sale.order.line'].sudo().search([('id', '=', int(data.get('line_id')))])
+                        rec = request.env['sale.order.line'].sudo().search(
+                            [('id', '=', int(data.get('line_id'))), ('order_id.partner_id', '=', customer_id),
+                             ('order_id.state', '=', 'draft'), ('order_id.cart_chekouted', '=', False)])
 
                         if rec:
                             rec.write(
@@ -556,13 +547,7 @@ class Api_Exposing_Cartv1(http.Controller):
                     return ({'status': False, 'message': 'You are not a Valid user'})
             else:
                 customer_id = request.env['res.users'].sudo().search([('id', '=', kwargs.get('uid'))]).partner_id.id
-            if not customer_id:
-                guest_user = request.env['custom.guest.session'].sudo().search(
-                    [('id_unique', '=', int(kwargs.get('uid')))])
-                if guest_user:
-                    public_user = request.env['res.users'].get_res_user_public()
-                    customer_id = public_user.partner_id.id
-            carts = request.env['sale.order'].search_read([('state', '=', 'draft'),('partner_id_id', '=', customer_id)],
+            carts = request.env['sale.order'].search_read([('state', '=', 'draft'),('partner_id', '=', customer_id)],
                                                          ['cart_name', 'amount_total'])
             return (carts if carts else {'status': False, 'message': 'Sorry Your Cart List Is Empty'})
         else:
@@ -573,7 +558,7 @@ class Api_Exposing_Cartv1(http.Controller):
         kwargs = http.request.get_json_data() or kwargs
         if kwargs.get('uid'):
             return (
-                request.env['sale.order.line'].search_read([('order_id', '=', http.request.jsonrequest.get('list_id'))],
+                request.env['sale.order.line'].search_read([('order_id', '=', kwargs.get('list_id'))],
                                                           ['product_id', 'product_uom_qty', 'price_unit', 'price_subtotal']))
         else:
             return json.dumps({'status': False, 'message': 'Please Pass Correct Info'})

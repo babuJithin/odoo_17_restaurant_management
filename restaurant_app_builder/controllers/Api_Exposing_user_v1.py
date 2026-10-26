@@ -124,7 +124,11 @@ class Ecommerce_Api_V1(http.Controller):
                     otp_registry._action_send_signup_otp()
                     return {'status': True,
                             'message': 'Please enter the OTP send to {0} '.format(otp_registry.email)}
-                if int(otp_registry.otp) == int(kwargs.get('otp')):
+                try:
+                    otp_matched = int(otp_registry.otp) == int(kwargs.get('otp'))
+                except (TypeError, ValueError):
+                    otp_matched = False
+                if otp_matched:
                     val = {'name': kwargs.get('name') or '', 'phone': kwargs.get('phone') or '',
                            'email': kwargs.get('email') or '',
                            }
@@ -165,9 +169,9 @@ class Ecommerce_Api_V1(http.Controller):
         kwargs = http.request.get_json_data() or kwargs
         _logger.info("parameters %s",kwargs)
 
-        db = kwargs.get('db') or ''
+        db = kwargs.get('db') or request.db
         domain = []
-        _logger.info("prameters <%s> ,  <%s>  , <%s>", kwargs.get('login'), kwargs.get('password'),kwargs.get('password'),kwargs.get('db'))
+        _logger.info("prameters <%s> , <%s>", kwargs.get('login'), kwargs.get('db'))
         if not kwargs.get('login'):
             return {'status': False,
                                'message': 'Please enter email address',

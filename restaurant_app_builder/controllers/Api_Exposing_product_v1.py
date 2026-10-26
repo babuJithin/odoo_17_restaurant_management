@@ -792,7 +792,7 @@ class log_in_credentials_v1(http.Controller):
                     vals['is_wishlist'] = False
                     vals1['is_wishlist'] = False
 
-                products_info.append(vals)
+            products_info.append(vals)
         return {'status': True if products_info else False,
                         'message': "Products available" if products_info else "Products Not available",
                         'data': {"search_results": products_info}}

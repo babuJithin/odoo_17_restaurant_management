@@ -25,7 +25,8 @@ class BrandProduct(models.Model):
 
 	@api.depends('member_ids')
 	def get_count_products(self):
-		self.product_count = len(self.member_ids)
+		for rec in self:
+			rec.product_count = len(rec.member_ids)
 
 
 class BrandReportStock(models.Model):

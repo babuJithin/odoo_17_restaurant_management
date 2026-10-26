@@ -45,7 +45,7 @@ class Ecommerce_Api_Wishlist_V1(http.Controller):
         product = request.env['product.product'].sudo().search(
             [('product_tmpl_id', '=', int(kwargs.get('product_id')))])
         if user:
-            wishlist = request.env['product.wishlist'].sudo().search([('product_id', '=', product[0].id), (
+            wishlist = request.env['product.wishlist'].sudo().search([('product_id', 'in', product[:1].ids), (
                 'partner_id', '=', int(user.partner_id.id))])
             if wishlist:
                 wishlist.sudo().unlink()
