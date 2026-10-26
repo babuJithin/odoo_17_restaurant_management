@@ -23,55 +23,56 @@ class Ecommerce_Api_V1(http.Controller):
         ENV = request.env.user.sudo().company_id
         attachment_obj = request.env['ir.attachment'].sudo()
 
-        color_configurations = request.env['color.info'].search_read([],['id','name','code','backend_config'])
-        image_configurations = request.env['app.image.attachments'].search_read([],['id','name','image_type'])
+        color_configurations = request.env['color.info'].sudo().search_read([], ['id', 'name', 'code', 'backend_config'])
+        image_configurations = request.env['app.image.attachments'].sudo().search_read([], ['id', 'name', 'image_type'])
+
+        # Defaults so the response never fails when a config record is missing
+        colors = {
+            'toolbar_color': '',
+            'menu_color': '',
+            'button_color': '',
+            'background_color': '',
+        }
+        images = {
+            'logo': '',
+            'background': '',
+            'splash_screen': '',
+        }
 
         for color_configuration in color_configurations:
-            if color_configuration['backend_config'] == 'toolbar_color':
-                toolbar_color = color_configuration['code']
-            if color_configuration['backend_config'] == 'menu_color':
-                menu_color = color_configuration['code']
-            if color_configuration['backend_config'] == 'button_color':
-                button_color = color_configuration['code']
-            if color_configuration['backend_config'] == 'background_color':
-                background_color = color_configuration['code']
+            key = color_configuration['backend_config']
+            if key in colors:
+                colors[key] = color_configuration['code'] or ''
 
         for image_configuration in image_configurations:
-            url=""
+            key = image_configuration['image_type']
+            if key not in images:
+                continue
             attachment = attachment_obj.search(
-                [('res_id', '=', image_configuration['id']), ('res_model', '=', 'app.image.attachments'),
+                [('res_id', '=', image_configuration['id']),
+                 ('res_model', '=', 'app.image.attachments'),
                  ('res_field', '=', 'image_data')], limit=1)
             if attachment:
-                access_token = attachment._generate_access_token()
-                attachment.access_token = access_token
-                url = url_join(base_url, 'web/content/%s?access_token=%s' % (attachment.id, attachment.access_token))
-            if image_configuration['image_type'] == 'logo':
-                logo = url
-            if image_configuration['image_type'] == 'background':
-                background_image = url
-            if image_configuration['image_type'] == 'splash_screen':
-                splash_screen_image = url
-
+                attachment.access_token = attachment._generate_access_token()
+                images[key] = url_join(
+                    base_url, 'web/content/%s?access_token=%s' % (attachment.id, attachment.access_token))
 
         return {
-
-                "status": True,
-                "message": "App Features ",
-                "country_id":ENV.country_id.id,
-                "country_name":ENV.country_id.name,
-                "currecny_id":ENV.currency_id.id,
-                "currecny_name": ENV.currency_id.name,
-                "currecny_name": ENV.currency_id.name,
-                "language": "en",
-                "toolbar_color":toolbar_color,
-                 "menu_color": menu_color,
-                "button_color": button_color,
-                "text_color": background_color,
-                "logo": logo,
-                "background_image": background_image,
-                "splash_screen_image": splash_screen_image,
-
-                }
+            "status": True,
+            "message": "App Features",
+            "country_id": ENV.country_id.id,
+            "country_name": ENV.country_id.name,
+            "currecny_id": ENV.currency_id.id,
+            "currecny_name": ENV.currency_id.name,
+            "language": "en",
+            "toolbar_color": colors['toolbar_color'],
+            "menu_color": colors['menu_color'],
+            "button_color": colors['button_color'],
+            "text_color": colors['background_color'],
+            "logo": images['logo'],
+            "background_image": images['background'],
+            "splash_screen_image": images['splash_screen'],
+        }
 
     @http.route('/api/v1/create_customer', methods=['POST'], type='json', auth='public', csrf=False)
     def create_customer_v1(self, **kwargs):
@@ -206,10 +207,3 @@ class Ecommerce_Api_V1(http.Controller):
             except:
                 return {'status': False, 'message': 'Something Went Wrong',
                      }
-
-
-
-
-
-
-
